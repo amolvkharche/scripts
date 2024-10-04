@@ -1,5 +1,6 @@
-echo  "Enter the exact neuvector version e.g. 5.3.2 or 5.3.3 or 5.3.4: "
+echo -e "Enter the neuvector version you want to install : "
 read version
+
 if [[ "$version" != "5.3.2" && "$version" != "5.3.3" && "$version" != "5.3.4" ]]; then
     echo "Version $version is not supported. Exiting."
     exit 1
@@ -9,9 +10,9 @@ RED='\033[0;31m'
 RESET="\e[0m"
 UL='\033[4m'
 GREEN='\033[0;37m'
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Creating the NeuVector namespace and the required service accounts  ===> ${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Creating the NeuVector namespace and the required service accounts  ===> ${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 kubectl create namespace neuvector
 
 kubectl create sa controller -n neuvector
@@ -23,14 +24,14 @@ kubectl create sa registry-adapter -n neuvector
 
 sleep 5
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Labeling the NeuVector namespace with privileged profile for deploying on a PSA enabled cluster===>${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Labeling the NeuVector namespace with privileged profile for deploying on a PSA enabled cluster===>${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 kubectl label  namespace neuvector "pod-security.kubernetes.io/enforce=privileged"
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Applying CRD's: ===> ${GREEN} "
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Applying CRD's: ===> ${GREEN} "
+echo -e "----------------------------------------------------------------------------------------------------"
 
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/crd-k8s-1.19.yaml
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/waf-crd-k8s-1.19.yaml
@@ -39,9 +40,9 @@ kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kube
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/vul-crd-k8s-1.19.yaml
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/admission-crd-k8s-1.19.yaml
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Creating clusterrole , role rolebinding and clusterrolebinding  ===>${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Creating clusterrole , role rolebinding and clusterrolebinding  ===>${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 
 #kubectl apply -f https://raw.githubusercontent.com/amolvkharche/neuvector/main/v5.3.0/rbac.yaml
 kubectl create clusterrole neuvector-binding-app --verb=get,list,watch,update --resource=nodes,pods,services,namespaces
@@ -70,26 +71,26 @@ kubectl create clusterrolebinding neuvector-binding-nvcomplianceprofiles --clust
 kubectl create clusterrole neuvector-binding-nvvulnerabilityprofiles --verb=get,list,delete --resource=nvvulnerabilityprofiles
 kubectl create clusterrolebinding neuvector-binding-nvvulnerabilityprofiles --clusterrole=neuvector-binding-nvvulnerabilityprofiles --serviceaccount=neuvector:controller
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Checking the neuvector/controller and neuvector/updater service accounts  ===>${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Checkingthe neuvector/controller and neuvector/updater service accounts  ===>${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 
 
 kubectl get ClusterRoleBinding neuvector-binding-app neuvector-binding-rbac neuvector-binding-admission neuvector-binding-customresourcedefinition neuvector-binding-nvsecurityrules neuvector-binding-view neuvector-binding-nvwafsecurityrules neuvector-binding-nvadmissioncontrolsecurityrules neuvector-binding-nvdlpsecurityrules -o wide
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Creating the NeuVector services and pods  ===>${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Creating the NeuVector services and pods  ===>${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 
 kubectl apply -f https://raw.githubusercontent.com/amolvkharche/neuvector/main/v5.3.0/${version}.yaml
 
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}Changing LoadBalancer type to NodePort service  ===>${GREEN}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}Changing LoadBalancer type to NodePort service  ===>${GREEN}"
+echo -e "----------------------------------------------------------------------------------------------------"
 kubectl -n neuvector patch svc neuvector-service-webui -p '{"spec": {"ports": [],"type": "NodePort"}}'
 
 node_ip=$(kubectl get node -o wide | awk '{print $7}' |grep -v EXTERNAL|head -1)
 port=$(kubectl get svc -n neuvector| grep -i neuvector-service-webui| awk '{print $5}'|cut -c 6-10)
-echo  "----------------------------------------------------------------------------------------------------"
-echo  "${RED}You can access Neuvector GUI using  ===> ${RESET} ${UL} https:$node_ip":"$port ${RESET}"
-echo  "----------------------------------------------------------------------------------------------------"
+echo -e "----------------------------------------------------------------------------------------------------"
+echo -e "${RED}You can access Neuvector GUI using  ===> ${RESET} ${UL} https:$node_ip":"$port ${RESET}"
+echo -e "----------------------------------------------------------------------------------------------------"
