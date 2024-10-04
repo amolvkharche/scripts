@@ -1,6 +1,6 @@
 echo  "Enter the exact neuvector version e.g. 5.3.2 or 5.3.3 or 5.3.4: "
 read version
-if [[ "$version" == "5.3.5" || "$version" == "5.3.6" ]]; then
+if [[ "$version" != "5.3.2" && "$version" != "5.3.3" && "$version" != "5.3.4" ]]; then
     echo "Version $version is not supported. Exiting."
     exit 1
 fi
