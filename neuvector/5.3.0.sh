@@ -1,4 +1,4 @@
-echo  "Enter the exact neuvector version e.g. 5.3.2 or 5.3.3 or 5.3.4: "
+echo  "Enter the exact neuvector version e.g. 5.3.0 or 5.3.1 or 5.3.2 or 5.3.3 or 5.3.4: "
 read version
 
 RED='\033[0;31m'
