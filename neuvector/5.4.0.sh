@@ -1,5 +1,6 @@
 #echo -e "Enter the neuvector version you want to install : "
-#read version
+#Default version
+version="5.4.0"
 
 RED='\033[0;31m'
 RESET="\e[0m"
