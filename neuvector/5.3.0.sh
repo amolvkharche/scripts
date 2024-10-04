@@ -1,14 +1,14 @@
 export KUBECONFIG=$PWD/kubeconfig
-echo -e "Enter the neuvector version you want to install : "
+echo  "Enter the exact neuvector version e.g. 5.3.2 or 5.3.3 or 5.3.4: "
 read version
 
 RED='\033[0;31m'
 RESET="\e[0m"
 UL='\033[4m'
 GREEN='\033[0;37m'
-echo -e "----------------------------------------------------------------------------------------------------"
-echo -e "${RED}Creating the NeuVector namespace and the required service accounts  ===> ${GREEN}"
-echo -e "----------------------------------------------------------------------------------------------------"
+echo  "----------------------------------------------------------------------------------------------------"
+echo  "${RED}Creating the NeuVector namespace and the required service accounts  ===> ${GREEN}"
+echo  "----------------------------------------------------------------------------------------------------"
 kubectl create namespace neuvector
 
 kubectl create sa controller -n neuvector
@@ -20,14 +20,14 @@ kubectl create sa registry-adapter -n neuvector
 
 sleep 5
 
-echo -e "----------------------------------------------------------------------------------------------------"
-echo -e "${RED}Labeling the NeuVector namespace with privileged profile for deploying on a PSA enabled cluster===>${GREEN}"
-echo -e "----------------------------------------------------------------------------------------------------"
+echo  "----------------------------------------------------------------------------------------------------"
+echo  "${RED}Labeling the NeuVector namespace with privileged profile for deploying on a PSA enabled cluster===>${GREEN}"
+echo  "----------------------------------------------------------------------------------------------------"
 kubectl label  namespace neuvector "pod-security.kubernetes.io/enforce=privileged"
 
-echo -e "----------------------------------------------------------------------------------------------------"
-echo -e "${RED}Applying CRD's: ===> ${GREEN} "
-echo -e "----------------------------------------------------------------------------------------------------"
+echo  "----------------------------------------------------------------------------------------------------"
+echo  "${RED}Applying CRD's: ===> ${GREEN} "
+echo  "----------------------------------------------------------------------------------------------------"
 
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/crd-k8s-1.19.yaml
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/waf-crd-k8s-1.19.yaml
@@ -36,9 +36,9 @@ kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kube
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/vul-crd-k8s-1.19.yaml
 kubectl apply -f https://raw.githubusercontent.com/neuvector/manifests/main/kubernetes/5.3.0/admission-crd-k8s-1.19.yaml
 
-echo -e "----------------------------------------------------------------------------------------------------"
-echo -e "${RED}Creating clusterrole , role rolebinding and clusterrolebinding  ===>${GREEN}"
-echo -e "----------------------------------------------------------------------------------------------------"
+echo  "----------------------------------------------------------------------------------------------------"
+echo  "${RED}Creating clusterrole , role rolebinding and clusterrolebinding  ===>${GREEN}"
+echo  "----------------------------------------------------------------------------------------------------"
 
 #kubectl apply -f https://raw.githubusercontent.com/amolvkharche/neuvector/main/v5.3.0/rbac.yaml
 kubectl create clusterrole neuvector-binding-app --verb=get,list,watch,update --resource=nodes,pods,services,namespaces
