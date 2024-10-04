@@ -1,10 +1,11 @@
 echo -e "Enter the neuvector version you want to install : "
 read version
 
-if  "$version" != "5.3.2" && "$version" != "5.3.3" && "$version" != "5.3.4" ; then
+if [ "$version" != "5.3.2" ] && [ "$version" != "5.3.3" ] && [ "$version" != "5.3.4" ]; then
     echo "Version $version is not supported. Exiting."
     exit 1
 fi
+
 
 RED='\033[0;31m'
 RESET="\e[0m"
