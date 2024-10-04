@@ -1,4 +1,3 @@
-export KUBECONFIG=$PWD/kubeconfig
 echo  "Enter the exact neuvector version e.g. 5.3.2 or 5.3.3 or 5.3.4: "
 read version
 
@@ -68,7 +67,7 @@ kubectl create clusterrole neuvector-binding-nvvulnerabilityprofiles --verb=get,
 kubectl create clusterrolebinding neuvector-binding-nvvulnerabilityprofiles --clusterrole=neuvector-binding-nvvulnerabilityprofiles --serviceaccount=neuvector:controller
 
 echo -e "----------------------------------------------------------------------------------------------------"
-echo -e "${RED}Checkingthe neuvector/controller and neuvector/updater service accounts  ===>${GREEN}"
+echo -e "${RED}Checking the neuvector/controller and neuvector/updater service accounts  ===>${GREEN}"
 echo -e "----------------------------------------------------------------------------------------------------"
 
 
