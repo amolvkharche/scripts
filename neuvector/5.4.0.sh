@@ -1,4 +1,3 @@
-#echo -e "Enter the neuvector version you want to install : "
 #Default version
 version="5.4.0"
 
